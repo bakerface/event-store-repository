@@ -1,0 +1,41 @@
+{
+  "name": "@event-store/repository",
+  "version": "1.0.0",
+  "description": "A repository implementation for event stores",
+  "author": "Chris Baker <mail.chris.baker@gmail.com>",
+  "license": "MIT",
+  "main": "lib/src/index.js",
+  "types": "lib/src/index.d.ts",
+  "homepage": "https://github.com/bakerface/event-store-repository#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bakerface/event-store-repository.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bakerface/event-store-repository/issues"
+  },
+  "keywords": [
+    "event",
+    "sourcing",
+    "store",
+    "repository",
+    "cqrs",
+    "atomic",
+    "commit"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "mocha -r ts-node/register 'test/**/*.ts'"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@event-store/memory": "^3.0.0",
+    "@types/chai": "^4.1.4",
+    "@types/mocha": "^5.2.5",
+    "chai": "^4.1.2",
+    "mocha": "^5.2.0",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.11.0",
+    "typescript": "^3.0.1"
+  }
+}
