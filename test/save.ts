@@ -1,15 +1,23 @@
-import { MemoryEventStore } from "@event-store/memory";
+import { MemoryEventStore, MemorySnapshotStore } from "@event-store/memory";
 import { expect } from "chai";
 import { EventStoreRepository } from "../src";
 import * as Calculator from "./Calculator";
 
 describe("saving events", () => {
   let eventStore: MemoryEventStore<Calculator.Event>;
+  let snapshotStore: MemorySnapshotStore<Calculator.State>;
   let repository: EventStoreRepository<Calculator.State, Calculator.Command, Calculator.Event>;
 
   beforeEach(() => {
     eventStore = new MemoryEventStore<Calculator.Event>((e) => e.id);
-    repository = new EventStoreRepository(Calculator.accept, Calculator.process, eventStore);
+    snapshotStore = new MemorySnapshotStore<Calculator.State>();
+
+    repository = new EventStoreRepository(
+      Calculator.accept,
+      Calculator.process,
+      eventStore,
+      snapshotStore,
+    );
   });
 
   describe("when there are no events", () => {
