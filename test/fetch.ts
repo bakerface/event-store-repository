@@ -27,13 +27,6 @@ describe("fetching events", () => {
       expect(calc.state).equals(undefined);
       expect(calc.key).equals("0");
     });
-
-    it("should not store snapshot", async () => {
-      await repository.fetch("0");
-      const snapshot = await snapshotStore.fetch("0");
-
-      expect(snapshot).equals(undefined);
-    });
   });
 
   describe("when there are events", () => {
@@ -58,24 +51,6 @@ describe("fetching events", () => {
       expect(one.state).eqls(3);
       expect(one.key).eqls("1");
     });
-
-    it("should store snapshot", async () => {
-      await repository.fetch("0");
-      await repository.fetch("1");
-
-      const zero = await snapshotStore.fetch("0");
-      const one = await snapshotStore.fetch("1");
-
-      expect(zero).eqls({
-        key: "2",
-        state: 1,
-      });
-
-      expect(one).eqls({
-        key: "1",
-        state: 3,
-      });
-    });
   });
 
   describe("when there are snapshots", () => {
@@ -99,17 +74,6 @@ describe("fetching events", () => {
 
       expect(zero.state).eqls(1);
       expect(zero.key).eqls("2");
-    });
-
-    it("should update the snapshot", async () => {
-      await repository.fetch("0");
-
-      const zero = await snapshotStore.fetch("0");
-
-      expect(zero).eqls({
-        key: "2",
-        state: 1,
-      });
     });
   });
 });

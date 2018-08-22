@@ -23,13 +23,10 @@ export class EventStoreRepository<State, Command, Event> {
       key = page.next;
 
       if (page.events.length === 0) {
-        if (state) {
-          await this.snapshotStore.save(subject, { key, state });
-        }
-
         return new Aggregate<State, Command, Event>(
           this.accept,
           this.process,
+          subject,
           state,
           key,
         );
@@ -39,7 +36,15 @@ export class EventStoreRepository<State, Command, Event> {
     }
   }
 
-  public save(aggregate: Aggregate<State, Command, Event>) {
-    return this.eventStore.append(aggregate.events, aggregate.key);
+  public async save(aggregate: Aggregate<State, Command, Event>) {
+    const { subject, events, key, state } = aggregate;
+
+    if (events.length > 0) {
+      const { next } = await this.eventStore.append(events, key);
+
+      if (state) {
+        await this.snapshotStore.save(subject, { key: next, state });
+      }
+    }
   }
 }

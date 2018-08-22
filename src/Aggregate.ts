@@ -1,4 +1,4 @@
-import { Key } from "@event-store/memory";
+import { Key, Subject } from "@event-store/memory";
 import { Accept } from "./Accept";
 import { Process } from "./Process";
 
@@ -6,6 +6,7 @@ export class Aggregate<State, Command, Event> {
   public constructor(
     private acceptor: Accept<State, Event>,
     private processor: Process<State, Command, Event>,
+    public subject: Subject,
     public state: State | undefined,
     public key: Key | undefined,
     public events: Event[] = [],

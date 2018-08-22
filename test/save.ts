@@ -34,6 +34,21 @@ describe("saving events", () => {
         Calculator.added("0", 1),
       ]);
     });
+
+    it("should update the snapshot", async () => {
+      const calc = await repository.fetch("0");
+
+      calc.process(Calculator.add("0", 1));
+
+      await repository.save(calc);
+
+      const snapshot = await snapshotStore.fetch("0");
+
+      expect(snapshot).eqls({
+        key: "1",
+        state: 1,
+      });
+    });
   });
 
   describe("when there are events", () => {
@@ -62,6 +77,21 @@ describe("saving events", () => {
         Calculator.subtracted("0", 1),
         Calculator.added("0", 1),
       ]);
+    });
+
+    it("should update the snapshot", async () => {
+      const calc = await repository.fetch("0");
+
+      calc.process(Calculator.add("0", 1));
+
+      await repository.save(calc);
+
+      const snapshot = await snapshotStore.fetch("0");
+
+      expect(snapshot).eqls({
+        key: "3",
+        state: 2,
+      });
     });
   });
 });
